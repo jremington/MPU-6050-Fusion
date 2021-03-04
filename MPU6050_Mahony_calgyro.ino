@@ -22,7 +22,7 @@ float G_off[3] = { -499.5, -17.7, -82.0}; //raw offsets, determined for gyro at 
 // ^^^^^^^^^^^^^^^^^^^ VERY VERY IMPORTANT ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // GLOBALLY DECLARED, required for Mahony filter
-// vector to hold quaternion
+// vector to hold quaternion 
 float q[4] = {1.0, 0.0, 0.0, 0.0};
 
 // Free parameters in the Mahony filter and fusion scheme,
