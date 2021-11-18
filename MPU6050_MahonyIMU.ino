@@ -181,7 +181,7 @@ void Mahony_update(float ax, float ay, float az, float gx, float gy, float gz, f
     az *= recipNorm;
 
     // Estimated direction of gravity in the body frame (factor of two divided out)
-    vx = q[1] * q[3] - q[0] * q[2];
+    vx = q[1] * q[3] - q[0] * q[2];  //to normalize these terms, multiply each by 2.0
     vy = q[0] * q[1] + q[2] * q[3];
     vz = q[0] * q[0] - 0.5f + q[3] * q[3];
 
