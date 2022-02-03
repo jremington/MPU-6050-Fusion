@@ -138,7 +138,8 @@ void loop()
 
     Mahony_update(Axyz[0], Axyz[1], Axyz[2], Gxyz[0], Gxyz[1], Gxyz[2], deltat);
 
-    // Compute Tait-Bryan angles.
+    // Compute Tait-Bryan angles. Strictly valid only for approximately level movement
+    
     // In this coordinate system, the positive z-axis is down toward Earth.
     // Yaw is the angle between Sensor x-axis and Earth magnetic North
     // (or true North if corrected for local declination, looking down on the sensor
