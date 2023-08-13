@@ -13,6 +13,9 @@ int MPU_addr = 0x68;
 //The IMU code will NOT work well or at all if these are not correct
 
 float A_cal[6] = {265.0, -80.0, -700.0, 0.994, 1.000, 1.014}; // 0..2 offset xyz, 3..5 scale xyz
+// the code will work, but not as accurately, for an uncalibrated accelerometer. Use this line instead:
+// float A_cal[6] = {0.0, 0.0, 0.0, 1.000, 1.000, 1.000}; // 0..2 offset xyz, 3..5 scale xyz
+
 float G_off[3] = { -499.5, -17.7, -82.0}; //raw offsets, determined for gyro at rest
 #define gscale ((250./32768.0)*(PI/180.0))  //gyro default 250 LSB per d/s -> rad/s
 
