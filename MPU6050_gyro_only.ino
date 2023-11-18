@@ -203,48 +203,8 @@ void Mahony_update(float ax, float ay, float az, float gx, float gy, float gz, f
   static float ix = 0.0, iy = 0.0, iz = 0.0;  //integral feedback terms
   float tmp;
 
-  // Compute feedback only if accelerometer measurement valid (avoids NaN in accelerometer normalisation)
-
-//  tmp = ax * ax + ay * ay + az * az;
-   tmp = 0.0; //IGNORE ACCELEROMETER
-
-  // ignore accelerometer if false (tested OK, SJR)
-  if (tmp > 0.0)
-  {
-
-    // Normalise accelerometer (assumed to measure the direction of gravity in body frame)
-    recipNorm = 1.0 / sqrt(tmp);
-    ax *= recipNorm;
-    ay *= recipNorm;
-    az *= recipNorm;
-
-    // Estimated direction of gravity in the body frame (factor of two divided out)
-    vx = q[1] * q[3] - q[0] * q[2];
-    vy = q[0] * q[1] + q[2] * q[3];
-    vz = q[0] * q[0] - 0.5f + q[3] * q[3];
-
-    // Error is cross product between estimated and measured direction of gravity in body frame
-    // (half the actual magnitude)
-    ex = (ay * vz - az * vy);
-    ey = (az * vx - ax * vz);
-    ez = (ax * vy - ay * vx);
-
-    // Compute and apply to gyro term the integral feedback, if enabled
-    if (Ki > 0.0f) {
-      ix += Ki * ex * deltat;  // integral error scaled by Ki
-      iy += Ki * ey * deltat;
-      iz += Ki * ez * deltat;
-      gx += ix;  // apply integral feedback
-      gy += iy;
-      gz += iz;
-    }
-
-    // Apply proportional feedback to gyro term
-    gx += Kp * ex;
-    gy += Kp * ey;
-    gz += Kp * ez;
-  }
-
+  // removed unused accelerometer terms
+  
   // Integrate rate of change of quaternion, given by gyro term
   // rate of change = current orientation quaternion (qmult) gyro rate
 
