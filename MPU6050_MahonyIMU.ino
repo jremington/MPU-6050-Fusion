@@ -45,7 +45,7 @@ float yaw, pitch, roll; //Euler angle output
 void setup() {
 
   Wire.begin();
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("starting");
 
   // initialize sensor
@@ -113,6 +113,10 @@ void loop()
 
   Mahony_update(Axyz[0], Axyz[1], Axyz[2], Gxyz[0], Gxyz[1], Gxyz[2], deltat);
 
+  now_ms = millis(); //time to calculate Euler angles and print?
+  if (now_ms - last_ms >= print_ms) {
+  last_ms = now_ms;
+  
   // Compute Tait-Bryan angles. Strictly valid only for approximately level movement
   
   // In this coordinate system, the positive z-axis is up, X north, Y west.
@@ -142,10 +146,6 @@ void loop()
   if (yaw < 0) yaw += 360.0; //compass circle
   pitch *= 180.0 / PI;
   roll *= 180.0 / PI;
-
-  now_ms = millis(); //time to print?
-  if (now_ms - last_ms >= print_ms) {
-    last_ms = now_ms;
     // print angles for serial plotter...
     //  Serial.print("ypr ");
     Serial.print(yaw, 0);
