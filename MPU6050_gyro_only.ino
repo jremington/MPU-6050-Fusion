@@ -46,7 +46,7 @@ float yaw, pitch, roll; //Euler angle output
 void setup() {
 
   Wire.begin();
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("starting");
 
   // initialize sensor
@@ -118,25 +118,21 @@ void loop()
   // normal AHRS calculations
 
   else {
-    Axyz[0] = (float) ax;
-    Axyz[1] = (float) ay;
-    Axyz[2] = (float) az;
-
-    //apply offsets and scale factors from Magneto
-    for (i = 0; i < 3; i++) Axyz[i] = (Axyz[i] - A_cal[i]) * A_cal[i + 3];
 
     Gxyz[0] = ((float) gx - G_off[0]) * gscale; //250 LSB(d/s) default to radians/s
     Gxyz[1] = ((float) gy - G_off[1]) * gscale;
     Gxyz[2] = ((float) gz - G_off[2]) * gscale;
-
-    //  snprintf(s,sizeof(s),"mpu raw %d,%d,%d,%d,%d,%d",ax,ay,az,gx,gy,gz);
-    //  Serial.println(s);
 
     now = micros();
     deltat = (now - last) * 1.0e-6; //seconds since last update
     last = now;
 
     Mahony_update(Axyz[0], Axyz[1], Axyz[2], Gxyz[0], Gxyz[1], Gxyz[2], deltat);
+
+    now_ms = millis(); //time to calculate Euler angles and print?
+
+    if (now_ms - last_ms >= print_ms) {
+    last_ms = now_ms;
 
     // Compute Tait-Bryan angles. Strictly valid only for approximately level movement
     
@@ -169,9 +165,6 @@ void loop()
     pitch *= 180.0 / PI;
     roll *= 180.0 / PI;
 
-    now_ms = millis(); //time to print?
-    if (now_ms - last_ms >= print_ms) {
-      last_ms = now_ms;
       // print angles for serial plotter...
       //  Serial.print("ypr ");
       Serial.print(yaw, 0);
